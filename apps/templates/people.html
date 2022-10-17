@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'css/mi.css' %}">
+
+</head>
+<body>
+<h1>hahhh</h1>
+<hr>
+<a href="{% url 'jump' %}">跳转</a>
+
+{% for p in person %}
+    <p>{{ forloop.counter }}：：：{{ p.p_name }}------{{ p.p_age }}------{{ p.p_sex }}</p>
+{% endfor %}
+</body>
+</html>
