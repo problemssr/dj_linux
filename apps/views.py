@@ -1,3 +1,9 @@
+import random
+from io import BytesIO
+
+from PIL import Image
+from PIL.ImageDraw import ImageDraw
+from PIL.ImageFont import ImageFont
 from django.db.models import Max, F
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
@@ -72,3 +78,39 @@ def set_Cookies(request):
 def get_Cookies(request):
     r = request.COOKIES.get('uname')
     return HttpResponse(r)
+
+
+def get_color():
+    return random.randrange(256)
+
+
+def generate_code():
+    source = "qwertyuiopasdfghjklzxcvbn1234567890QWERTYUIOPASDFGHJKLZXCVBNM"
+    code = ""
+    for i in range(4):
+        code += random.choice(source)
+    return code
+
+
+def draw(request):
+    mode = "RGB"
+    size = (200, 100)
+    red = get_color()
+    blue = get_color()
+    green = get_color()
+    color = (red, blue, green)
+    image = Image.new(mode=mode, size=size, color=color)
+    imagedraw = ImageDraw(image, mode=mode)
+
+    verify_code = generate_code()
+    for i in range(4):
+        fill = (get_color(), get_color(), get_color())
+        imagedraw.text(xy=(50 * i, 0), text=verify_code[i], fill=fill)
+    for i in range(1000):
+        fill = (get_color(), get_color(), get_color())
+        xy = (random.randrange(201), random.randrange(101))
+        imagedraw.point(xy=xy, fill=fill)
+    fp = BytesIO()
+    image.save(fp, 'png')
+
+    return HttpResponse(fp.getvalue(), content_type="image/png")
