@@ -11,5 +11,5 @@ urlpatterns = [
     path('json/', views.get_json, name="json_con"),
     path('setCookies/', views.set_Cookies, name="setcookie"),
     path('getCookies/', views.get_Cookies, name="getcookie"),
-
+    path('suibian/', views.suibian, name="suibian"),
 ]
